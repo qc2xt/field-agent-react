@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 function UpdateAgent( {agent, updateView} ) {
-    const [firstName, setFirstName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [dob, setDob] = useState();
-    const [height, setHeight] = useState(0);
+    const [firstName, setFirstName] = useState(agent.firstName);
+    const [middleName, setMiddleName] = useState(agent.middleName);
+    const [lastName, setLastName] = useState(agent.lastName);
+    const [dob, setDob] = useState(agent.dob);
+    const [height, setHeight] = useState(agent.height);
 
     const handleUpdate = (event) => {
         event.preventDefault();
@@ -83,7 +83,7 @@ function UpdateAgent( {agent, updateView} ) {
             </div>
             <div className="form-group">
                 <label htmlFor="height">Height (inches):</label>
-                <input type="number" id="DOBbox" onChange={handleHeightChange} className="form-control" placeholder="I'm required" defaultValue={agent.height}/>
+                <input type="number" id="HeightBox" onChange={handleHeightChange} className="form-control" placeholder="I'm required" defaultValue={agent.height}/>
             </div>
             <button type="submit" className="btn btn-primary mt-2">Update</button>
         </form>
