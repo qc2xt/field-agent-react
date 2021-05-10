@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 
 function AddAgent({ addAgent }) {
-    //const [agentId, setAgentId] = useState(0);
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [dob, setDob] = useState('');
-    const [height, setHeight] = useState(0);
+    const [dob, setDob] = useState();
+    const [height, setHeight] = useState();
 
     const handleAdd = (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         let agent = {};
-        {/*
-            "firstName": {firstName},
-            "middleName": {middleName},
-            "lastName": {lastName},
-            "dob": {dob},
-            "heightInInches": {height}
-        */};
         
         agent["firstName"] = firstName;
         agent["middleName"] = middleName;
@@ -82,7 +74,7 @@ function AddAgent({ addAgent }) {
                     </div>
                     <div className="form-group">
                         <label htmlFor="height">Height (inches):</label>
-                        <input type="number" id="DOBbox" onChange={handleHeightChange} className="form-control" placeholder="I'm required" required/>
+                        <input type="number" id="HeightBox" onChange={handleHeightChange} className="form-control" placeholder="I'm required" required/>
                     </div>
                     <button type="submit" className="btn btn-primary mt-2">Add</button>
                 </form>

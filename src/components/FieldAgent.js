@@ -48,24 +48,28 @@ function FieldAgent () {
         let canSet = true;
 
         for (let i = 0; i < agents.length; i++) {
-        if (agent.agentId === agents[i].agentId) {
-            canSet = false;
-        }
+            if (agent.agentId === agents[i].agentId) {
+                canSet = false;
+            }
         }
 
         if (canSet) {
-        addFetch(agent);
+            addFetch(agent);
         } else {
-        setMessages("Agent Already Exists");
+            setMessages("Agent Already Exists");
         } 
     }
 
     const updateAgents = (agent) => {
         let newAgents = [...agents];
         for (let i = 0; i < newAgents.length; i++) {
-        if (agent.agentId === newAgents[i].agentId) {
-            newAgents[i].name = agent.name;
-        }
+            if (agent.agentId === newAgents[i].agentId) {
+                newAgents[i].firstName = agent.firstName;
+                newAgents[i].middleName = agent.middleName;
+                newAgents[i].lastName = agent.lastName;
+                newAgents[i].dob = agent.dob;
+                newAgents[i].height = agent.height;
+            }
         }
         setAgents(newAgents);
     }
@@ -74,21 +78,26 @@ function FieldAgent () {
         let newAgents = [];
 
         for (let i = 0; i < agents.length; i++) {
-        if (agents[i].agentId !== agentId) {
-            newAgents.push(agents[i]);
-        }
+            if (agents[i].agentId !== agentId) {
+                newAgents.push(agents[i]);
+            }
         }
 
         if (newAgents.length !== agents.length) {
-        setAgents(newAgents);
-        setMessages("");
+            setAgents(newAgents);
+            setMessages("");
         } else {
-        setMessages("Could not find that agent to remove");
+            setMessages("Could not find that agent to remove");
         } 
     }
 
     return (
         <div className="container">
+            <div className="row">
+                {messages && (
+                <p className="error"> {messages} </p>
+                )}
+                </div>
             <div className="row">
                 <div className="col">
                     <AgentList agents={agents} removeAgent={removeAgent} updateAgents={updateAgents}/>

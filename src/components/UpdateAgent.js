@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import Agent from './Agent';
 
 function UpdateAgent( {agent, updateView} ) {
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [dob, setDob] = useState('');
+    const [dob, setDob] = useState();
     const [height, setHeight] = useState(0);
 
     const handleUpdate = (event) => {
@@ -17,7 +16,8 @@ function UpdateAgent( {agent, updateView} ) {
             middleName: middleName,
             lastName: lastName,
             dob: dob,
-            heightInInches: height
+            heightInInches: height,
+            agencies: []
         }
 
         const init = {
@@ -29,7 +29,7 @@ function UpdateAgent( {agent, updateView} ) {
             body: JSON.stringify(newAgent)
         };
 
-        fetch("http://localhost:8080/api", init)
+        fetch(`http://localhost:8080/api/agent/${agent.agentId}`, init)
             .then(response => {
                 if (response.status !== 204) {
                 return Promise.reject("update failed");
@@ -79,11 +79,11 @@ function UpdateAgent( {agent, updateView} ) {
             </div>
             <div className="form-group">
                 <label htmlFor="DOB">Date of Birth:</label>
-                <input type="date" id="DOBbox" onChange={handleDOBChange} className="form-control" required/>
+                <input type="date" id="DOBbox" onChange={handleDOBChange} className="form-control" defaultValue={agent.dob}/>
             </div>
             <div className="form-group">
                 <label htmlFor="height">Height (inches):</label>
-                <input type="number" id="DOBbox" onChange={handleHeightChange} className="form-control" placeholder="I'm required" required/>
+                <input type="number" id="DOBbox" onChange={handleHeightChange} className="form-control" placeholder="I'm required" defaultValue={agent.height}/>
             </div>
             <button type="submit" className="btn btn-primary mt-2">Update</button>
         </form>

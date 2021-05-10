@@ -1,4 +1,4 @@
-function Agent({ agentId, firstName, middleName, lastName, dob, heightInInches, removeAgent, updateAgent }) {
+function Agent({ agentId, firstName, middleName, lastName, dob, height, removeAgent, updateAgent }) {
 
     const deleteById = () => {
         fetch(`http://localhost:8080/api/agent/${agentId}`, {method: "DELETE" })
@@ -12,12 +12,12 @@ function Agent({ agentId, firstName, middleName, lastName, dob, heightInInches, 
     }
 
     const update = () => {
-        updateAgent(agentId, firstName, middleName, lastName, dob, heightInInches)
+        updateAgent(agentId, firstName, middleName, lastName, dob, height)
     }
 
     return (
         <li className="list-group-item">
-            Agent {agentId}: {firstName} {middleName} {lastName}
+            Agent {agentId}: {firstName} {middleName} {lastName} {height}
             <button onClick={update}>Update</button>
             <button onClick={deleteById}>Delete</button>
         </li>
