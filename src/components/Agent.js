@@ -16,7 +16,7 @@ function Agent({ agentId, firstName, middleName, lastName, removeAgent}) {
     return (
         <li className="list-group-item">
             Agent {agentId}: {firstName} {middleName} {lastName}
-            <Link className="btn btn-warning ml-2" to={`/agent/edit/${agentId}`}>Update</Link>
+            <Link className="btn btn-warning ml-2" to={`/agents/edit/${agentId}`}>Update</Link>
             <button onClick={deleteById}>Delete</button>
         </li>
     );
