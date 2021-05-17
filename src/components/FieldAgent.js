@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import AgentList from "./AgentList";
 import AddAgent from "./AddAgent";
-import AuthContext from './AuthContext';
+
 
 function FieldAgent() {
   const [agents, setAgents] = useState([]);
@@ -79,9 +79,7 @@ function FieldAgent() {
 
   return (
     <div className="container">
-      <div className="row">
-        {messages && <p className="error"> {messages} </p>}
-      </div>
+      
       <div className="row">
         <div className="col">
           <AgentList

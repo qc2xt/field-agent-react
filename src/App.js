@@ -1,9 +1,9 @@
 import FieldAgent from './components/FieldAgent';
-import AgentList from './components/AgentList';
-import NavBar from './components/NavBar';
+import DisplayAgents from './components/DisplayAgents';
+
 import Login from './components/Login';
 import UpdateAgent from './components/UpdateAgent';
-import AddAgent from './components/AddAgent';
+
 import NotFound from './components/static/NotFound';
 import Registration from './components/Registration';
 import AuthContext from './components/AuthContext';
@@ -18,8 +18,8 @@ function App() {
   const [user, setUser] = useState(null);
 
   const login = (token) => {
-    const { id, sub: username, roles: rString } = jwt_decode(token);
-    const roles = rString.split(',');
+    const { id, sub: username, roles: rolesString } = jwt_decode(token);
+    const roles = rolesString.split(',');
 
     const user = {
       id,
@@ -28,6 +28,9 @@ function App() {
       token,
       hasRole(role) {
         return this.roles.includes(role);
+      },
+      isValid() {
+        return true;
       }
     }
 
@@ -75,32 +78,35 @@ function App() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/agents">Add Agents</Link>
+              <Link to="/agents/add">Add Agents</Link>
             </li>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/register">Register</Link>
             </li>
           </ul>
 
 
           <Switch>
             <Route exact path="/">
-              {user ? (
-                <AgentList />
+              {(user && user.isValid()) ? (
+                <DisplayAgents />
               ) : (
                 <Redirect to="/login" />
               )}
               
             </Route>
             <Route exact path="/agents/add">
-              {user ? (
+              {(user && user.isValid()) ? (
                 <FieldAgent />
               ) : (
                 <Redirect to="/login" />
               )}
             </Route>
             <Route exact path="/agents/edit/:id">
-              {user ? (
+              {(user && user.isValid()) ? (
                 <UpdateAgent />
               ) : (
                 <Redirect to="/login" />

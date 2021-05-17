@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Agent({ agentId, firstName, middleName, lastName, dob, height, removeAgent}) {
+function Agent({ agentId, firstName, middleName, lastName, removeAgent}) {
 
     const deleteById = () => {
         fetch(`http://localhost:8080/api/agent/${agentId}`, {method: "DELETE" })
@@ -15,8 +15,8 @@ function Agent({ agentId, firstName, middleName, lastName, dob, height, removeAg
 
     return (
         <li className="list-group-item">
-            Agent {agentId}: {firstName} {middleName} {lastName} {height}
-            <Link className="btn btn-warning ml-2" to={`/agents/edit/${agentId}`}>Update</Link>
+            Agent {agentId}: {firstName} {middleName} {lastName}
+            <Link className="btn btn-warning ml-2" to={`/agent/edit/${agentId}`}>Update</Link>
             <button onClick={deleteById}>Delete</button>
         </li>
     );

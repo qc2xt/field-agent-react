@@ -1,7 +1,8 @@
 import Agent from './Agent';
-import {useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
+import AuthContext from './AuthContext';
 
-function AgentList({ removeAgent }) {
+function DisplayAgents() {
 
     const [agents, setAgents] = useState([]);
   
@@ -19,19 +20,25 @@ function AgentList({ removeAgent }) {
         .catch(console.log);
     }, []);
 
+    const auth = useContext(AuthContext);
+
     return (
+        <>
+        <div className="row">
+            <h2>Hello {auth.user.username}!</h2>
+        </div>
         <div className="row">
             <div className="col">
                 <div className="card">
                     <h2 className="card-title ml-3">All Agents</h2>
                     <ul className="list-group list-group-flush">
-                        {agents.map(a => <Agent key={a.agentId} agentId={a.agentId} firstName={a.firstName} middleName={a.middleName} lastName={a.lastName} dob={a.dob} height={a.height} removeAgent={removeAgent}/>)}
+                        {agents.map(a => <p>Agent {a.agentId}: {a.firstName} {a.middleName} {a.lastName}, {a.dob}</p>)}
                     </ul>
                 </div>
             </div>
         </div>   
-        
+        </>
     );
 }
 
-export default AgentList;
+export default DisplayAgents;
