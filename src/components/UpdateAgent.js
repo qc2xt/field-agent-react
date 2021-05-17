@@ -1,11 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
-function UpdateAgent({ agent, updateView }) {
-  const [firstName, setFirstName] = useState(agent.firstName);
-  const [middleName, setMiddleName] = useState(agent.middleName);
-  const [lastName, setLastName] = useState(agent.lastName);
-  const [dob, setDob] = useState(agent.dob);
-  const [height, setHeight] = useState(agent.height);
+function UpdateAgent() {
+  const defaultAgent = {
+    agentId: 0,
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    dob: null,
+    height: 0
+  }
+
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [dob, setDob] = useState();
+  const [height, setHeight] = useState();
+
+  const [agent, setAgent] = useState(defaultAgent);
+
+  const { id } = useParams();
+  const history = useHistory();
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/agent/${id}`)
+    .then(response => response.json())
+    .then(data => setAgent(data))
+    .catch(error => console.log(error))
+  }, [id]);
 
   const handleUpdate = (event) => {
     event.preventDefault();
@@ -35,7 +57,7 @@ function UpdateAgent({ agent, updateView }) {
           return Promise.reject("update failed");
         }
       })
-      .then(updateView(newAgent))
+      .then(history.push('/'))
       .catch(console.log);
   };
 
@@ -67,7 +89,7 @@ function UpdateAgent({ agent, updateView }) {
           type="text"
           id="agentIdTextBox"
           className="form-control"
-          readOnly="readOnly"
+          readOnly
           value={agent.agentId}
         />
       </div>
@@ -78,7 +100,6 @@ function UpdateAgent({ agent, updateView }) {
           id="firstNameTextBox"
           onChange={handleFNChange}
           className="form-control"
-          placeholder="I'm required"
           defaultValue={agent.firstName}
         />
       </div>
@@ -89,7 +110,6 @@ function UpdateAgent({ agent, updateView }) {
           id="middleNameTextBox"
           onChange={handleMNChange}
           className="form-control"
-          placeholder="I'm required"
           defaultValue={agent.middleName}
         />
       </div>
@@ -100,7 +120,6 @@ function UpdateAgent({ agent, updateView }) {
           id="lastNameTextBox"
           onChange={handleLNChange}
           className="form-control"
-          placeholder="I'm required"
           defaultValue={agent.lastName}
         />
       </div>
@@ -121,13 +140,13 @@ function UpdateAgent({ agent, updateView }) {
           id="HeightBox"
           onChange={handleHeightChange}
           className="form-control"
-          placeholder="I'm required"
           defaultValue={agent.height}
         />
       </div>
       <button type="submit" className="btn btn-primary mt-2">
         Update
       </button>
+      <Link className="btn btn-warning ml-2" to="/">Cancel</Link>
     </form>
   );
 }

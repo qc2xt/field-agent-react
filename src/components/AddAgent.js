@@ -1,11 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function AddAgent({ addAgent }) {
+function AddAgent() {
+  const defaultAgent = {
+    agentId: 0,
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    dob: null,
+    height: 0
+  }
+
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState();
   const [height, setHeight] = useState();
+
+  const [agents, setAgents] = useState([]);
+  const [messages, setMessages] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/agent")
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(response);
+          return Promise.reject("get didn't work...");
+        }
+        return response.json();
+      })
+      .then((json) => setAgents(json))
+      .catch(console.log);
+  }, []);
+
+  const addFetch = (agent) => {
+    const init = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(agent),
+    };
+
+    fetch("http://localhost:8080/api/agent", init)
+      .then((response) => {
+        if (response.status !== 201) {
+          return Promise.reject("Error.");
+        }
+        return response.json();
+      })
+      .then((json) => {
+        setAgents([...agents, json]);
+        setMessages("");
+      })
+      .catch(console.log);
+  };
+
+  const addAgent = (agent) => {
+    let canSet = true;
+
+    for (let i = 0; i < agents.length; i++) {
+      if (agent.agentId === agents[i].agentId) {
+        canSet = false;
+      }
+    }
+
+    if (canSet) {
+      addFetch(agent);
+    } else {
+      setMessages("Agent Already Exists");
+    }
+  };
 
   const handleAdd = (event) => {
     event.preventDefault();
@@ -22,12 +87,6 @@ function AddAgent({ addAgent }) {
 
     addAgent(agent);
   };
-
-  {
-    /*const handleIdChange = (event) => {
-        setAgentId(event.target.value);
-    }*/
-  }
 
   const handleFNChange = (event) => {
     setFirstName(event.target.value);
@@ -54,10 +113,6 @@ function AddAgent({ addAgent }) {
       <h2 className="card-title ml-3">Add Agent</h2>
       <div className="card-body">
         <form onSubmit={handleAdd}>
-          {/*<div className="form-group">
-                        <label htmlFor="agentIdTextBox">Agent Id:</label>
-                        <input type="text" id="agentIdTextBox" onChange={handleIdChange} className="form-control" placeholder="I'm required" required/>
-                    </div>*/}
           <div className="form-group">
             <label htmlFor="firstNameTextBox">First Name:</label>
             <input
@@ -76,8 +131,6 @@ function AddAgent({ addAgent }) {
               id="middleNameTextBox"
               onChange={handleMNChange}
               className="form-control"
-              placeholder="I'm required"
-              required
             />
           </div>
           <div className="form-group">

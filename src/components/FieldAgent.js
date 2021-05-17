@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AgentList from "./AgentList";
 import AddAgent from "./AddAgent";
+import AuthContext from './AuthContext';
 
 function FieldAgent() {
   const [agents, setAgents] = useState([]);
@@ -59,16 +60,6 @@ function FieldAgent() {
     }
   };
 
-  const updateAgents = (agent) => {
-    let newAgents = [...agents];
-    for (let i = 0; i < newAgents.length; i++) {
-      if (agent.agentId === newAgents[i].agentId) {
-        newAgents[i] = agent;
-      }
-    }
-    setAgents(newAgents);
-  };
-
   const removeAgent = (agentId) => {
     let newAgents = [];
 
@@ -96,7 +87,6 @@ function FieldAgent() {
           <AgentList
             agents={agents}
             removeAgent={removeAgent}
-            updateAgents={updateAgents}
           />
         </div>
         <div className="col">
