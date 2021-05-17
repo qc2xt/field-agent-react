@@ -73,19 +73,23 @@ function App() {
     <div className="App">
       <AuthContext.Provider value={auth}>
         <Router> 
-          <ul>
+          <ul id="nav">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/" href="#">Home</Link>
             </li>
             <li>
-              <Link to="/agents/add">Add Agents</Link>
+              <Link to="/agents/add" href="#">Add Agents</Link>
             </li>
             <li>
-              <Link to="/login">Login</Link>
+              <Link to="/login" href="#">Login</Link>
             </li>
             <li>
-              <Link to="/register">Register</Link>
+              <Link to="/register" href="#">Register</Link>
             </li>
+            <li>  
+              <button className="btn btn-primary" onClick={logout}>Logout</button>
+            </li>
+            
           </ul>
 
 
